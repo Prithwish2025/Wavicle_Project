@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="grid">
+
+  <!-- Add Student Card -->
+  <div class="card">
+    <h2>➕ Add Student</h2>
+    <form action="{{ url_for('add_student') }}" method="post">
+      <label>Roll No</label>
+      <input name="roll" required>
+      <label>Name</label>
+      <input name="name" required>
+      <button type="submit">Add Student</button>
+    </form>
+
+    <h3>📋 Current Students</h3>
+    <table>
+      <tr><th>Roll</th><th>Name</th></tr>
+      {% for s in students %}
+      <tr><td>{{ s.roll }}</td><td>{{ s.name }}</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+
+  <!-- Attendance Card -->
+  <div class="card">
+    <h2>✅ Attendance</h2>
+    <form action="{{ url_for('mark_attendance') }}" method="get">
+      <label>Select Date</label>
+      <input type="date" name="date" value="{{ request.args.get('date','') or '' }}">
+      <button type="submit">Open Attendance Page</button>
+    </form>
+  </div>
+
+  <!-- Assignment Card -->
+  <div class="card">
+    <h2>📝 Create Assignment</h2>
+    <form action="{{ url_for('create_assignment') }}" method="post">
+      <label>Title</label>
+      <input name="title" required>
+      <label>Max Marks</label>
+      <input type="number" name="max_marks" required>
+      <label>Weight (Contribution %)</label>
+      <input type="number" name="weight" required>
+      <label>Due Date</label>
+      <input type="date" name="due_date">
+      <button type="submit">Create Assignment</button>
+    </form>
+
+    <h3>📚 Assignments</h3>
+    <table>
+      <tr><th>ID</th><th>Title</th><th>Max</th><th>Weight</th><th>Due</th><th>Actions</th></tr>
+      {% for a in assignments %}
+      <tr>
+        <td>{{ a.assignment_id }}</td>
+        <td>{{ a.title }}</td>
+        <td>{{ a.max_marks }}</td>
+        <td>{{ a.weight }}</td>
+        <td data-duedate="{{ a.due_date }}">{{ a.due_date }}</td>
+        <td>
+          <a href="{{ url_for('enter_marks', assignment_id=a.assignment_id) }}">Enter Marks</a> |
+          <a href="{{ url_for('view_submissions', assignment_id=a.assignment_id) }}">View Submissions</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+  <!-- Meeting Card -->
+  <div class="card">
+    <h2>📅 Schedule Meeting</h2>
+    <form action="{{ url_for('schedule_meeting') }}" method="post">
+      <label>Title</label>
+      <input name="title" required>
+      <label>Date</label>
+      <input type="date" name="date" required>
+      <label>Time</label>
+      <input type="time" name="time" required>
+      <label>Link / Location</label>
+      <input name="link" placeholder="Zoom/Meet link or Room no.">
+      <button type="submit">Schedule</button>
+    </form>
+
+    <h3>📆 Upcoming Meetings</h3>
+    <table>
+      <tr><th>ID</th><th>Title</th><th>Date</th><th>Time</th><th>Starts In</th><th>View</th></tr>
+      {% for m in meetings %}
+      <tr>
+        <td>{{ m.meeting_id }}</td>
+        <td>{{ m.title }}</td>
+        <td>{{ m.date }}</td>
+        <td>{{ m.time }}</td>
+        <td data-meetingtime="{{ m.date }}T{{ m.time }}"></td>
+        <td><a href="{{ url_for('view_meeting_attendance', meeting_id=m.meeting_id) }}">Attendance</a></td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+  <!-- Settings Card -->
+  <div class="card">
+    <h2>⚙ Settings</h2>
+    <form action="{{ url_for('update_settings') }}" method="post">
+      <label>Attendance Red Threshold (%)</label>
+      <input name="att_red" value="{{ settings.att_red }}">
+      <label>Attendance Yellow Threshold (%)</label>
+      <input name="att_yellow" value="{{ settings.att_yellow }}">
+      <label>Performance Red (%)</label>
+      <input name="perf_red" value="{{ settings.perf_red }}">
+      <label>Performance Yellow (%)</label>
+      <input name="perf_yellow" value="{{ settings.perf_yellow }}">
+      <label>Missing marks policy</label>
+      <select name="missing_policy">
+        <option value="strict" {% if settings.missing_policy=='strict' %}selected{% endif %}>Strict</option>
+        <option value="rescale" {% if settings.missing_policy=='rescale' %}selected{% endif %}>Rescale</option>
+      </select>
+      <button type="submit">Save Settings</button>
+    </form>
+  </div>
+
+</section>
+{% endblock %}

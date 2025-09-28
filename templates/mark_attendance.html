@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Mark Attendance for {{ date }}</h2>
+  <form action="{{ url_for('mark_attendance') }}" method="post">
+    <input type="hidden" name="date" value="{{ date }}">
+    <table>
+      <tr><th>Roll</th><th>Name</th><th>Present</th></tr>
+      {% for s in students %}
+      <tr>
+        <td>{{ s.roll }}</td>
+        <td>{{ s.name }}</td>
+        <td>
+          <input type="checkbox" name="present_{{ s.roll }}"
+            {% if attendance_map[s.roll] == "Present" %}checked{% endif %}>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+    <button type="submit">Save Attendance</button>
+  </form>
+  <form action="{{ url_for('update_settings') }}" method="post">
+    <label>Performance Red Threshold (%)</label><input name="perf_red" value="{{ settings.perf_red }}">
+    <label>Performance Yellow Threshold (%)</label><input name="perf_yellow" value="{{ settings.perf_yellow }}">
+    <button type="submit">Update Settings</button>
+  </form>
+{% endblock %}

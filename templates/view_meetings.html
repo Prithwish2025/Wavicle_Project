@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Available Meetings</h2>
+  <table>
+    <tr><th>Title</th><th>Date</th><th>Time</th><th>Link</th><th>Action</th></tr>
+    {% for meeting in meetings %}
+    <tr>
+      <td>{{ meeting.title }}</td>
+      <td>{{ meeting.date }}</td>
+      <td>{{ meeting.time }}</td>
+      <td><a href="{{ meeting.link }}" target="_blank">Join Meeting</a></td>
+      <td>
+        <form action="{{ url_for('attend_meeting', meeting_id=meeting.meeting_id) }}" method="post">
+          <input type="hidden" name="roll" value="{{ roll }}">
+          <button type="submit">Mark Attendance</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endblock %}

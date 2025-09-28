@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Submissions for Assignment {{ assignment.assignment_id }}</h2>
+  <table>
+    <tr><th>Roll</th><th>Filename</th><th>Submitted On</th><th>Download</th></tr>
+    {% for s in subs %}
+    <tr>
+      <td>{{ s.roll }}</td>
+      <td>{{ s.filename }}</td>
+      <td>{{ s.submitted_on }}</td>
+      <td>
+        <a href="{{ url_for('download_submission', assignment_id=assignment.assignment_id, filename=s.filename) }}">Download</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endblock %}

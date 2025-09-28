@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Student Login</h2>
+  <form method="POST" action="{{ url_for('student') }}">
+    <label for="roll">Roll Number:</label>
+    <input type="text" name="roll" id="roll" required>
+    <button type="submit">Login</button>
+  </form>
+{% endblock %}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Attendance & Performance Tracker</title>
+  
+  <!-- Google Fonts for modern look -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+  <!-- JavaScript -->
+  <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+<body>
+  
+  <!-- Navbar -->
+  <nav>
+    <div class="nav-left">
+      <span class="brand">📊 EduSync</span>
+    </div>
+    <div class="nav-right">
+      <a href="{{ url_for('index') }}">Home</a>
+      {% if session.get('teacher_logged_in') %}
+        <a href="{{ url_for('teacher') }}">Teacher</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+      {% else %}
+        <a href="{{ url_for('login') }}">Teacher Login</a>
+      {% endif %}
+      <a href="{{ url_for('student') }}">Student</a>
+    </div>
+  </nav>
+
+  <!-- Flash Messages -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div id="flash-container">
+        {% for category, message in messages %}
+          <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <!-- Main Content -->
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>© {{ now().year if now else "2025" }} Smart Attendance Tracker | Made by Prithwish and Niladri</p>
+  </footer>
+
+</body>
+</html>
+

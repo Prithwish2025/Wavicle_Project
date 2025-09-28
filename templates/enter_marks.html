@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Enter Marks for Assignment: {{ assignment.title }} (Max: {{ assignment.max_marks }})</h2>
+  <form action="" method="post">
+    <table>
+      <tr><th>Roll</th><th>Name</th><th>Marks</th></tr>
+      {% for s in students %}
+      <tr>
+        <td>{{ s.roll }}</td>
+        <td>{{ s.name }}</td>
+        <td>
+          <input name="marks_{{ s.roll }}" value="{{ marks_map.get((assignment.assignment_id, s.roll)) or '' }}">
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+    <button type="submit">Save Marks</button>
+  </form>
+{% endblock %}

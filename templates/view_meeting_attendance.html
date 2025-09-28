@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Meeting Attendance - {{ meeting_id }}</h2>
+  <table>
+    <tr><th>Roll</th><th>Status</th></tr>
+    {% for a in attendees %}
+    <tr><td>{{ a.roll }}</td><td>{{ a.status }}</td></tr>
+    {% endfor %}
+  </table>
+{% endblock %}

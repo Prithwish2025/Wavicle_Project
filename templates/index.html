@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="home-container">
+  <h1 class="home-title">Welcome</h1>
+  <p class="home-desc">
+    This prototype allows teachers to add students, mark attendance, create assignments,
+    and students to view attendance & performance.
+  </p>
+
+  <div class="portal-grid">
+    <!-- Teacher Portal Card -->
+    <div class="portal-card teacher-card">
+      <h2>👨‍🏫 Teacher Portal</h2>
+      <p>Manage students, mark attendance, create assignments, and schedule meetings.</p>
+      <a href="{{ url_for('teacher') }}" class="btn">Go to Teacher Portal</a>
+    </div>
+
+    <!-- Student Portal Card -->
+    <div class="portal-card student-card">
+      <h2>🎓 Student Portal</h2>
+      <p>View your attendance, check performance, submit assignments, and join meetings.</p>
+      <a href="{{ url_for('student') }}" class="btn">Go to Student Portal</a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
